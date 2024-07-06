@@ -1,0 +1,106 @@
+1) TYPE DEDUCTION / TÜR ÇIKARIMI
+	Tamamen derleme zamanlı bir araç seti, runtime maliyeti yok.
+	
+- 3 tane yapı var
+	*auto type deduction (uses "auto" keyword)
+		- C'de ve C++'taki anlamları farklı.
+		- parametrede, returnde, lambda ifadelerinde başka anlamı var auto'nun.
+		  (Operator overloading)
+	* "decltype" keyword
+	* "decltype(auto)" keyword
+	Bunlarla yapılan type deduction'lar başka anlamda
+	
+- template (generic programlama paradigması)
+	Bunda da auto type deduction çok kullanılıyor.
+	
+** auto bir placeholder (yer tutucu)!!
+	derleyici auto'ya karşılık gelen bir tür çıkarımı yapıyo.
+
+- category1: auto x = expr;
+  category2: auto &x = expr;
+  category3: auto &&x = expr;
+	Hepsindeki kural seti farklı!
+	
+**Neden auto var?
+	1)auto kullandığında ilk değer vermek zorunlu. Kodlama hatası riskini azaltıyor.
+	2)kod yazmayı kolaylaştırıyo, karmaşıklığı azaltıyor.
+
+*** auto'yu kullanabileceğin her yerde auto'yu kullan.
+		Almost always auto.
+
+2) Category1:
+	int func(int);
+	Fonksiyonun türü: int(int)
+	Fonksiyonun adresinin türü: int (*)(int)
+	
+	* auto p = func;	//auto ya karşılık gelen tür int (*)(int)
+						//function to pointer conversion var.
+	  int (*p)(int) = func;	//same
+
+3) Category2:
+	int foo(int);
+	
+	main():
+		auto &x = foo;	//auto (function type) ==> int(int)
+						//x (funksiyona referans); function pointer değil.
+						//int (&x)(int) = foo;	//aynısı 
+4) Category3:
+	Reference Collapsing!
+		* T& &	T&	//sol taraf referansına sol taraf referansı = sol taraf referansı
+		* T& &&	T&	//sağ taraf referansına sol taraf referansı = yine sol taraf referansı
+		* T&& &	T&	//sol taraf referansına sağ taraf referansı = yine sol taraf referansı
+		* T&& && T&	//sağ taraf referansına sağ taraf referansı = sağ taraf referansı
+		
+		Referanslardan biri sol taraf referansı ise her zaman sol taraf referansına bağlanır.
+		
+	int ival = 10;	//ival value category: L value
+	auto&& x = ival; //auto da L value referans türü.
+		Bu durumda R value referansa L value referans oluştu ve sol taraf referansına bağlandı.
+	int &x = ival; 	//	Aynı anlam.
+		
+	//sağ taraf referansıyla örnek.
+	auto && x = 20;	//20: R value
+					//Bu durumda auto referans türü değil. auto = int
+	int && x = 20;	// Aynı anlam. 
+	
+5) typedef tür eş isim bildirimleri C++de using keywordu ile yapılıyor.
+
+	- typedef int WORD;
+	  using WORD = int;
+	- typedef int* iptr;
+	  using iptr = int*;
+	- typedef int inta[5];
+	  using inta = int[5];
+	- typedef int (*fptr)(int);
+	  using fptr = int(*)(int);
+	  
+	*Neden using eklendi?
+		- yazılması daha kolay
+		- template'ler için
+
+6) decltypes operandı olan ifadenin value categorisi
+	a) PR value expression ise türün kendisi elde edilir: T türü
+	b) L value expression ise sol taraf referansı türü elde edilir: T&	
+	c) X value expression ise sağ taraf referansı türü elde edilir: T&&
+	
+	int ival = 4;
+	decltype(ival + 5): int
+	decltype((ival)): int&
+	
+	int* ptr = &ival;
+	int a = 10;
+	decltype(*ptr) b = a;	//*ptr L value, bu yüzden b de L value ==> b int& oldu 
+	declytpe(++a);	//int& since ++a L value
+	
+	int x[5] = {0};
+	declytpe(x[2]); //int& türü çünkü x[2] L value
+	
+7)Unevaluated context
+	C'de sadece bir yerde: sizeof() operatörünün içini derleyici kod haline çevirmez.
+		int a = 1;
+		sizeof(a++);
+		//a nın değeri hala 1'dir artmaz.
+	C++'ta decltype() da böyle.
+	
+
+
