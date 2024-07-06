@@ -1,0 +1,18 @@
+Bir sınıfın bir özel üye fonksiyonu aşağıdaki 3 durumdan birinde olabilir.
+
+1)Yok
+
+//default constructor yok!
+class Myclass{
+public:
+	Myclass(int);
+}
+
+2)User declared - programcı bildirmiş
+	a. Myclass();
+	b. Myclass() = default;
+	c. Myclass() = delete;
+	
+3)Implicitly declared: derleyici bizim için bildirir
+	a. default
+	b. deletes
