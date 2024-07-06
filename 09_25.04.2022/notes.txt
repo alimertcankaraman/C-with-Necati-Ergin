@@ -1,0 +1,5 @@
+1)Inline Functions
+	*Globak fonksyionlar gibi sınıfın member function'ları da inline olarak başlık dosyasında 
+	tanımlanabilir. Bu durum ODR'ı ihlal etmez!
+	*Sınıfların member functionlarının tanımları classın içinde yapılırsa implicitly inline olur!!
+	 inline kullanıp kullanmaman bir şey değiştirmez!
