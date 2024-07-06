@@ -1,0 +1,38 @@
+1) Inline Functions
+	Inline expansion: fonksiyonun çağrıldığı noktada oraya fonksiyonun derlenmiş kodunu kullanması orada.
+		Bu daha hızlı çünkü diğer türlü stack operations input output vs handle etmesi gereliyor derleyicinin.
+		***Bunun için fonksiyonun tanımını görmesi gerekir! func(){ }
+		macro gibi oraya yapıştırır.
+		
+		int func(int x)
+		{
+			return x * 2;
+		}
+		
+		int main()
+		{
+			int v;
+			int a = func(b)	//burada inline expansion yapabilir.
+		}
+		
+	***inline olan fonksiyon inline expansion yapılacak anlamına gelmez derleyici tarafından.
+	Ama inline olarak tanımlanmayan fonksiyon inline expansiona uğrayabilir, derleyici karar verir.
+	
+	
+	***inline fonksiyonlar ODR'handle eder! Birden fazla kez tanımlanmış bir fonksiyon varsa inline olarak tanımlanırsa
+	One definitionb rule ihlal edilmiyor olur.
+	başlık dosyasında tanımlanan fonksiyonlar inline olmalı! 
+	ODR
+	
+	*Eğer bir header filedaki tüm fonksiyonlar o headaer fileında inline olarak tanımlanmışlar ise
+	bu durumda bu header filea eşlik eden bir cpp source file olmadan bir module oluşturulabilir.
+	Böyle modüllere ve böyle modüllerden oluşan kütüphanelere
+		"header-only library" denir. Ex: cpp STL kütüphanesi böyle.
+	
+	*Inline fonksiyon yaptığınız zaman o fonksiyonun implementasyonunu da kullanıcıya vermiş olursunuz!
+	
+
+
+
+
+ 
