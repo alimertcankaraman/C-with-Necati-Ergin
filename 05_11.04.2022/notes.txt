@@ -1,0 +1,114 @@
+1) constexpr int x = 10;
+	//x ifadesi sabit ifadesi ile ilk değer verilmeli.
+	int foo();
+	main():
+		constexpr int y = foo();	//ERROR!
+		
+2) Fonksiyonlar da constexpr ile tanımlanabiliyor.
+	constexpr int sumSquare(int a, int b)
+	{
+		return a*a + b*b;
+	}
+	
+	****Normalde bir fonksiyona yapılan çağrı runtime'da hesaplanıp elde edilir sonuç
+		So, normal bi fonksiyona yapılan çağrılar constexpr olamaazdı!
+		AmA yeni c++de:
+			sumSquare(10,20);	== 500 // constant expression
+				//parametreler de const expression olduğundan compile timeda elde	
+				  ediliyor sonuç!!!!!****
+		EFFICIENCY: runtimeda hesaplanacağına compile timeda iş bitiyor!
+		
+**AAA: Always almost auto
+**ODR: One Definition Rule
+
+	.h file'da fonsksiyon define edildi veya int x = 10 dendi,
+	İki ayrı source fileda include edilirse ODR patlar ama 
+	inline keyword kullanılırsa bunu engeller! Tek varmış gibi olur.
+	**constexpr implicitly inline dır
+	
+3) FUNCTION OVERLOADING 
+	* Aynı isimli birden fazla fonksiyonun aynı scope'ta bulunabilmesi.
+	* Tamamen compile time'da çözümlenir.
+	* Aynı işi yapar fakat farklı kod ile.
+	
+- static/early binding -> hangi fonksiyonun çağrıldığı compile timeda belli olursa
+- late/dynamic binding -> hangi fonksiyonun çağrıldığı runtimedaki bir kodla ile anlaşılıyorsa
+
+*C minimalist bir dil, derleyiciye çok yük biniyor bu iş için o yüzden yok C'de
+
+*Function overload resolution: hangi fonksiyona bağlanacağının çözülmesi
+
+* Overload olabilmesi için fonksiyonların 2 koşul gerekir:
+	1. aynı scope'ta bildirilmeli
+	2. imzaları (signature) farklı olmalı
+		int func(int, int);
+		signature: func(int, int) kısmı
+		
+Scope:
+	file scope (C)
+	namespace scope (C++)
+	class scope (C++)
+	block scope
+	function scope
+	function prototype scope
+
+int foo(int);
+int foo(const int);
+	//Overloading YOK, low-level const: parametrenin const olması imzada bi fark yaratmaz!: Redeclaration
+	
+int foo(int *p);
+int foo(const int *p);
+	//Overloading VAR! low-level const, farklı türler.
+
+int foo(int *p);
+int foo(int *const p);
+	//Overloading YOK, low-level const
+	
+4) Overload Çağırma Kuralları
+** Variadic function: void func(int, ...);
+	İki tane overload var, ikisi de viable ise biri variadic ise	
+	Variadic olmayan fonksiyon kazanır, çağrılır.
+	
+** User-defined conversion
+	Normalde sentaks hatası ama constructor ile tanımlayıp conversion elde edilebilir.
+	
+** Standard conversion
+	- exact match
+		*array decay: dizinin adı ilk elemanın adresi ile aynı
+		*parametre const T* ise T* verilince
+		*function to pointer conversion da exact match'e dahil
+	- promotion
+		*unsigned to int, char/unsigned char/ signed char to int / bool to int dönüşümleri
+		*float dan double'a dönüşüm promotion'dır	// double'dan long double promotion değil misal
+	- normal conversion
+
+5) Türler:
+	12 -> int
+	12U -> unsgined int
+	12l -> long
+	12LL -> long long
+	12LU -> unsigned long
+	12.34 -> double
+	12.34f -> float
+	12.4L -> long double
+	0 -> int
+	0u -> unsigned int
+	3.L -> long double
+	
+	12e3 -> double
+	0x1ad2U -> unsigned int
+	
+	10 > 4 --> C'de int, C++ta bool türü üretir
+	'A' -> C'de int türü (karakter sabiti), C++ta char (karakter literal)
+
+
+
+
+
+
+
+
+
+
+
+
