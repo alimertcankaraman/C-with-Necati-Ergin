@@ -1,0 +1,103 @@
+REFERANSLAR VE REFERANS SEMANTİĞİ
+
+1)
+C: pointers var, c++de alternatif de var 
+C++: 
+	* reference semantics
+	* smart pointer (object ama pointer arayüzüne sahip -> operator overloading için)
+	
+	** raw/naked pointer (C'deki gibi); smart pointer (C++ta var)
+
+2)C++11 öncesinde: L value reference deniyor (ilk bu anlatılacak)
+	* R value reference
+	* forwarding/universal reference
+	
+3) L value reference'a yalnızca vir L value expression ile ilk değer verilebilir!
+	Expression: 10, x + 10, x + 10 > 20
+	Statement: x + 10;	// ";" statement yapar!
+
+4) BAD: (float) 3;
+   GOOD: 3.f;
+   
+5) 
+* Data Type: int, double, int * vs..
+* Value category: R or L value olmalı c'de.
+
+ 
+ 	int* p = &x;
+	int a[10];
+		&x: R value
+		*p: L value
+		a[10]: L value
+
+& operand'ının sonuna gelebiliyorsa (operandı olabiliyorsa) her zaman L value'dur. Bellekte var ise yani
+	&a; &x;
+	
+C için:
+	* L value: bi nesneye karşılık gelir, bellekte ayrılmış bi yer var!!!
+	* R value: bellekte bi yere karşılık gelmiyor, hesaplamaya yönelik
+	
+C++: Modern C++ta value kategorileri değişti. (Move semantics)
+
+Primary value categories:
+	* PR value (expression)	// Pure R value
+	* L value (expression)	// Same as C
+	* X value				//Expiring value
+	
+	** L value birleşim X value: GL value // generalised L value
+	** PR value birleşim X value: R value
+
+*! ++x or --x : C'de R value, C++'de L value expression!!!!
+	x++ or x-- C++'ta PR value yine.!!! (R value in C)
+	&x: PR value
+	nullptr: PR value
+	*ptr = &x; //*ptr -> L value! nesneye karşılık geldiği için
+	int foo();	// PR value
+
+! REFERANSLAR ne işe yarayacak:
+	Call by reference için fonksiyon çağrısını kolaylaştıracak!
+	
+	
+6) Adres döndüren fonksiyonlar C:
+	*Static ömürlü nesne adresi
+		a) global değişken adresi
+		b) static yerel değişken adresi
+		c) string literali //bu da static ömürlü
+	*Dinamik ömürlü nesne adresi
+	* çağırandan aldığı adresi döndürebilir.
+	
+7) pointer vs referans
+	- *ptr ilk değer almak zorunda değil, &r almak zorunda.
+	- ptr farklı nesneleri gösterebilir const olmadığı (int* const p // başkasını gösteremez)sürece ama 
+	  referans ismini başka bir nesneye bağlayamayız.
+	- pointerların dizisi olabilir.
+		Pointer array:
+			int a1 = 10;
+			int a2 = 10;
+			int a3 = 10;
+			
+			main(): 
+				int * pArray[] = {&a1, &a2, & a3};
+				
+	  AMA elemanları referans olan bir dizi yok!!!
+	  
+	 - pointer to pointer var: 
+		int *p = &a1;
+		int** ptr = &p; 
+		
+		Ama reference to reference yok!
+		
+	-**NULL POINTER FARKI:
+	
+	*C'de null pointer nerelerde kullanır?
+		- fonksiyonun geri dönüşü adresse, işi başarırsa nesne adresi, işi başaramazsa nullptr döndürür
+			(malloc, realloc, fopen, setlocal, linuxApileri böyle)
+		- arama fonksiyonları: aranan değer bulunursa onun adresi, bulunamazsa null pointer 
+			(strchr, strrchr strstr, strpbrk vs)
+		- fonksiyon parametresi olabilir: nesne adresi gönderirsen şunu null pointer gönderirsen şunu yaparım.
+			(time_t time(time_t*)) : nullptr gönderirsen yazmam diyor. retval'den kullan!
+		- fflush() fonksiyonu: 
+			fflush(NULL);	//açık olan tüm dosyaların bufferlarını flush eder!
+		- *p bir flag olarak kullanılabilir: if(p)
+		
+	*NULL pointer VAR ama NULL reference YOK!!

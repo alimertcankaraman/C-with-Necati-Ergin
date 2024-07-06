@@ -1,0 +1,6 @@
+- const int& r ile verilen parametre ile call by value aynı şeyi sağlıyor
+	Avantaj dezavantajları nedir.
+	
+- ++x neden L value dur, &++x kullanılması mantıklı mı?
+
+- c de value değeri ile alınmış argümanın adresi pointer olarak kullanılabilir mi
