@@ -1,0 +1,33 @@
+1) CLASSES
+Class decleration:
+	class Myclass;	//incomplete type
+	
+Class definition:
+	class Myclass
+	{
+	};	//complete type
+	
+!Bildirimi sınıf tanımı içinde yapılan isimler sınıfın elemanlarıdır ve bu isimlerin tüm isimlerde
+ olduğu gibi bir scope'u vardır buna class scope denir!
+	*namespace scope
+	*class scope!
+	*block scope
+	*function scope
+	*function prototype scope
+	
+!Bir ismin bir sınıfın tanımı içinde aranması için şu koşullardan biri sağlanmalı:
+	 *dot operator'un sağ operandı olarak kullanılmışsa
+	 *arrow operatorunun sağ operandı olarak kullanılmışsa
+	 *isim scope resolution operatörünün sağ operandı olarak kullanılmışsa (sol operandı sınıf ismi olmalı)
+		x.a
+		ptr->a
+		Myclass::a
+		
+! name lookup
+	context control
+		access control
+		
+! access specifiers:
+	*public 
+	*private
+	*protected	//inheritance için
