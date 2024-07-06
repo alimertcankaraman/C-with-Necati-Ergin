@@ -1,0 +1,130 @@
+1) User Defined Types
+	C: structures, union, enumeration
+	C++ struct = class
+
+enum Color {red, blue, yellow};
+2) Underlying type
+C: enum type her zaman int'dir (default)
+	Farklı enumlardan ve int aritmetik türünden enumlara dönüşüm var!
+	C++'ta bunlar syntax hatası!
+C++ enum type!ını derleyici atanan değere göre belirler
+	enum Color: unsigned char {red, black, white}
+**scoped enum: 
+	enum class Color {red, black, white} //sınıf değil.
+
+3) scope, name lookup, linkage -> learn!
+
+4) :: scope resolution operator!
+	enum class Color{red, black, white}
+	Color my = Color::red ile ulaşılabiliyor!
+	int i = my; //HATA! enum class olduğu için!!
+
+5) C++ ta derleyici kod da yazabiliyor.
+* Derleyiciye kod yazdıran araç setine: Template deniyor!
+* type deduction (tür çıkarımı)
+	int x = 10; (int)
+	int* p = &x; (pointer to int)
+	auto x = 10; //auto type deduction! ilk verilen değerin türüne göre verir!!
+
+6)C'de keyword'ler overload edilmemiş, tek anlam.	
+	istisna: static keyword
+ C++: static, using, auto, mutable; çok farklı anlamları olabilir, yerine göre
+
+7)Initialization:
+C++:	int x; 	//default init	//garbage data //const değişken default initialize edilemez!!
+	int y;  //zero initialization if global: bss section
+	int x = 10; //copy initialization	
+	int y(20); //direct initialization
+	int z{3};  //uniform/brace initialization
+	int a[]{1, 2, 3, 4, 5}; //aggregate initialization
+	int b{}; //value init; 0 ile başlar kesin	
+
+-> Narrowing conversion:
+	double dval = 3.4;
+	int ival = dval;	//narrowing, hata yok
+	int ival(dval);		//hata yok
+	int ival{dval};		//HATA! brace init daha korumalı!
+
+->Scott Meyers: universal reference
+	most vexing parse: fonksiyon bildirimi ve nesne tanımlaması anlamına gelebilir (both)
+	struct A{};
+
+	struct B{
+   	B(A);
+	};
+
+	int main()
+	{
+   	   B bx(A()); // most vexing parse; bx bir fonksiyon burada ama olmamalı
+	}
+
+8) C:
+	int x = 10;
+	int main(){
+	   int x = x; //tanımsız davranış, kendi çöp değerini atıypruz.
+	}
+
+9) SCOPE
+C: file scope
+   block scope
+   function prototype scope
+   function scope
+C++: file scope -> namespace
+     class scope
+     block scope
+     function prototype scope
+     function scope
+
+10) Operator overloading:
+	Derleyici << + gibi operatörleri bir fonksiyona çağrı olarak çevirebilir.
+	std::cout << "i"; 	//<< fonksiyon çağırıyor, std namespace'i içinde cout bir sınıf değişkeni
+ 		cout: bitsel sola kaydırma operatorün operandı
+
+	cout << "mert" == operator<<(cout, "mert)" //aynısı
+	**inserter: cin
+	
+11) Function overloading
+FLUENT API (C#, JAVA) 
+	cout << "mert" << 2 << "double" << 3.4 ;   //arka arkaya fonksiyon çağırılıyor.
+		string türü ve double türü parametreleri alan fonksiyondur bu, 
+		aynı fonksiyon, farklı parametre!
+
+* cout <<"mert";	  //parametre const char*: global function (free function) çağrılıyor.
+  cout.operand<<("mert") //parametre: void*: yazının adresini yazdırır. Sınıfın "member function"ı
+
+12) namespace: isim çakışmasını önlemek için kullanılıyor. Buna karşı bi önlem.
+	using namespace std: korumayı kaldırıp, görünür hale getiriyor.
+
+13) cin: istream sınıf türünden
+	    int in;
+		std::cin >> in; == std:cin.operator(x);
+			//in variable'ının adresi veriliyor; reference semantic
+		**extractor: cin
+
+14)C++: func(int, int) == foo(int x, int y)	//foo: function prototype scope
+	//soldakinde parametre kullanılmıyor.
+	//C'de geçerli değil.
+	
+15) default/implicit function/argument decleration
+C: int func(); //default; eskiden bu tanımlanmadan çağrıldıysa derleyici oluşturuyodu.
+   int printf(const char*, ...)	//variadic function; istedğin kadar argüman ver, ama en az 1 verilmeli
+  
+  
+  *C++: 
+    int g = 3;
+	int foo(int = 5, int = 9)
+	void func(int , int = 10, int = 4 + g, int = foo());
+	int main()
+	{
+		func(5, 6);	// == func (5, 6, 7, foo(5, 9))
+		func(3);	// == func(3, 10, 7, foo(5, 9));
+	}
+C++ ve diğer modern dillerde: argüman sayısından daha az argümanla function çağrılabilir.
+	Derleyici default parametre kabul ediyor.
+	
+16) C++ Sorular:
+- varsayılan(default) argüman mekanizması çalışma zamanına bi maliyeti var mı?
+	Runtime'la alakalı değil, derleme zamanında yapılıyor. Cevap: yok!
+
+
+

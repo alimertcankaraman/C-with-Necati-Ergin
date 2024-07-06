@@ -1,0 +1,5 @@
+-<iostream>; <ctype> vs neden .h ile kullanılması kötü.
+	CEVAP: .h eski olabilir, bazı derleyiciler include etmeyebilir vs.
+
+-Hocam, cin >> ile verdiğimiz parametrenin (örneğin: int x;) adresinin
+alınabilmesi gerekiyor. Bunu compiler mı yapıyor?
