@@ -1,0 +1,64 @@
+Bir sınıfın bir özel üye fonksiyonu aşağıdaki 3 durumdan birinde olabilir.
+
+1)Yok
+
+//default constructor yok!
+class Myclass{
+public:
+	Myclass(int);
+}
+
+2)User declared - programcı bildirmiş
+	a. Myclass();
+	b. Myclass() = default;
+	c. Myclass() = delete;
+	
+3)Implicitly declared: derleyici bizim için bildirir
+	a. default
+	b. deletes
+	
+	
+	
+	
+	
+	
+************************************************
+
+Dinamik Ömürlü Nesneler! (runtimeda allocate ediliyor.)
+	Garbage Collector sisteminin olduğu dillerde (java c#) her nesne dinamik ömürlüdür.
+	C++ ta böyle değil.
+	
+Dinamik vs Static 40 50 kat daha yavaş
+Dinamik: new / delete operators
+
+	- new Myclass
+	- new Myclass()
+	- new Myclass{}
+	- new Myclass(x, y)
+	- new Myclass{x, y}
+	
+**new ifadesi bir adres üretir. Üretilen adres hayata gelen nesnenin adresidir.
+
+
+*Smart pointer!
+
+*Derleyici new ifadesi karşığında önce standard kütüphanenin "operator new" fonksiyonunu çağırır.
+* Bu fonksiyonasınıf türünün sizeof değerini gönderir.
+	void* operator new(std::size_t)
+*Çağrılan bu fonksyion parametresine aktarılan büyüklükte bir bellek alanı allocate
+edemez ise bu durumda exception throw eder.
+malloc() da benzer ama allocate edemezse null pointer döndürürdü.
+
+
+
+***Eğer hayata getirdiğiniz nesneyi delete etmezseniz
+ 1. dinamik ömürlü nesnenin destructor'ı çağrılmaz.
+ 2. operator new fonksyionu ile elde edilmiş bellek bloğu geri verilmez.
+ 
+ **resource leak!!! (destructor bir kaynak geri veriyorsa)
+ **ama her türlü memory leak olur.!!!
+ 
+ delete p (p: nesnenin pointer'ı)
+ 
+** void operator delete(void *vp)
+	operator delete(p) //bellek geri verildi.
