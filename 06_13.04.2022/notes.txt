@@ -1,0 +1,79 @@
+1) Type-Cast Operators
+	a)static_cast: benim kontrolümde, sıkıntı yok
+	b)const_cast
+	c)reinterpret_cast
+	========================
+	d)dynamic_cast; runtimeda yapılan bi dönüşüm; inheritance ve runtime polymorphism ile alakalı.
+	
+	C'deki dönüştürme bazı sorunlara yol açabilir, niyetler farklı olabiliyor. O yüzden farklı keyword'lar var.
+	
+
+*sizeof(x) == sizeof x	--> öncelik parantezi sizeof(x)
+ sizeof(int) --> sentaksın gerektirdiği parantez, öncelik parantezi değil
+
+Static cast:
+	char c = ival;
+	c = (char) ival;	//impli cit olacaktı ama ben biliyorum sorun yok.
+
+	*Angular bracket: < >
+		static_cast<int>(dval)
+
+2) Enum / Enum Class
+
+***Enum type ++ veya -- operatörlerinin operand'ı olamaz!
+	enum Color{red, blue, green};
+	main()
+		Color red;
+		++red;	//HATA!
+		
+	**! bool b = false;
+		++b; //Artık bu da hata!
+		
+	Bunu aşmak için operator overloading kullanılacak!
+	
+-- C'de enum type underline type'ı int. sizeof(enum) == sizeof(int) always true
+	C++'ta enderline type int olmak zorunda değil. long, unsigned long vs olabilir.
+
+--typedef demeden Color türü belirtir!
+
+3) void func(int) = delete;
+	//Eğer bu fonksiyona bir çağrı yapılırsa sentaks hatası olsun.
+	  Hem fonksiyon var ama çağrılması yasak.
+	  Neden var? function overload resolution'dan bu seçilirse sentaks hatası olacak.
+	  
+4) scoped enum / enum class : kapsamlandırılmış class, class türü değil ama	
+
+enum class Color {a, b, c};
+	* kendi scope'ları var. İsim çakışmasını önlüyor!
+	* underline type verilebilir.
+	* enum classtan aritmetik türlere otomatik dönüşüm yok!!
+	
+	
+5) name lookup: derleyicinin bir ismin neyin ismi olduğunu anlama süreci..
+	Önce namelookup yapılır sonra context kontrolü.
+	
+*C++ dilinde istisnası olmayan şekilde bir ismin aranıp bulunamaması her zaman sentaks hatasıdır.
+*İsmin bulunması durumunda context kontrolü yapılır.
+	include <cstdio>
+	printf = 10;	//context hatası.
+
+Derleyicinin süreçleri sırasıyla:
+	1) name lookup
+	2) context kontrolü
+	3) erişim kontrolü // private'lara erişilememe gibi.
+	
+**Namelook up altın kurallar C'de:
+	1)Aranan isim bulunduğunda context kontrolüne geçer, arama devam etmez.
+	2)İsim arama (dilin karmaşık kurallarınca belirlenen bir sırayla yapılır): önce en içteki bloktan
+		başlar sonra kapsayan bloklarda arar!
+	
+**iSİM nitelenmişse, arama kuralları değişir.
+
+	scope resolution operator -> ::   -->binary/unary kullanım -> tek operand/ iki operandlı kullanım
+	
+	::x   	-> bu isim bu ismin kullanıldığı scope'u kapsayan namespace'te aranacak.
+	
+***Global namespace bütün namespaceler'i içine alır!
+
+
+
