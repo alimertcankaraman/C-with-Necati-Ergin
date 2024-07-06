@@ -1,0 +1,95 @@
+-----C/C++ Farkları-----
+
+1) implicit int: func(void); c++'ta hata, c'de devam ediyor eskiyle aynı kalsın diye.
+* Know: legal/illegal code, undefined/unspecified behaviour, implementation defined behavior.
+
+2) C: int func(); //parametre tanımlı değil
+	func(1,3,5); geçerli
+	foo(void): //parametre yok
+   C++ ta geçerli değil. (legal değil): int func(void) = int func() // cpp de ikisi de aynı anlam, parametre yok
+
+3) C'de variabler function'ın başında define edilir. C++ 'ta bu kötü bir kodlama şekli!
+   (Scope Leakage!) variable kapsamları mümkün olduğu kadar dar tutulmalı.
+	! Değişkinler ilk nerede kullanılacaksa orada kullanılmalı.
+
+4) int sum(x, y, z)
+   {
+      return x+y+z;	// C: parametreler default int oluyor belirtilmediğinden
+			//old style function definition
+   }
+
+5) c++ ta aritmetik türlerden pointer türü arasında otomatik dönüşüm yok.
+   Farklı adres türleri arasında da otomatik dönüşüm yok.
+
+6) C: 'A' -> character sabiti, türü int!
+   C++: 'A' -> character literal'i deniyor, türü char!!!!!
+	Bu fark örneğin function overloading için önemli bir fark.
+* "mert" (string literal)	C: char array			- char[5]
+	 			C++: const char array!!	- const char[5]
+	string literal'i salt okuabilirdir.
+
+7) **const keyword** 
+- mutable/immutable
+- c++ de const değişkinlere ilk değer verilmeli, C'de gerek yok.
+
+//const pointer to int
+int * const p = &d; (init edilmeli!)	//pointer değişkeni asla değişemez.
+
+//pointer to const
+int const * p = &d;	//pointerın gösterdiği adresi değiştiremezsin.
+const int * p = &d; //same
+
+//const pointer to const int
+int const *const p = &d;
+
+8) Sabit ifadelerin kullanıldığı yerler C'de:
+	* global değişkenleri initialize eden ifadeler.
+		int x = 10;
+		int y = x; //hata (globalde tanımlı)
+	* switch altındaki case ifadeleri.
+	* dizi boyutu gösteren ifadeler
+	* bit field alanların kaç bit olduğunu gösteren ifadeler
+
+    const int c = 10;
+    int arr[c] = {0}; // legal in cpp not c
+	//cpp'de de kullanılabilmesi için sabit ifadesiyle ilk değerini almalı.
+	//fonksyion çağrısı ile init edilmişse hata ama const int x = 10; iş görür.
+
+9) Linkage (bağlantı)	
+	* External Linkage: 
+	   int x = 10;	//her modülün ulaşabildiği (global); modüller paylaşıyor. Diğer
+			kaynak dosyalar da ulaşabiliyor.
+	* Internak Linkage: 
+	   static int g = 10;	//in C.	
+	   Sadece kendi modülünde kullanılan değişkenler.
+
+const int x = 20;
+C++: global const nesneler, variable'lar, iç bağlantılıdır (internal linkage)	
+C: global const nesneler, dış bağlantılıdır
+
+10) C++'ta "bool" distinct bir type'dır.
+* C'de karşılaştırma operatörleri int türünü üretir fakat C++'ta logic operatörler bool üretir!!!
+* C'de bool yok.
+10 > 5 -> int in c (1), bool in c++ (True)
+
+11) Arithmetic operatörlerden ve pointer türünden bool türüne implicit dönüşüm var!
+	Bool türünden aritmetic (int) variable'a da implicit dönüşüm var
+C++:
+	int x = 10;
+	int y = 0;
+	bool b = x; //true
+	bool c = y; false
+
+	int ival = 1;
+	int* ptr = &ival;
+	bool b = ptr;	//NULL ptr ise False, değilse True
+
+12) NULL Pointer
+C: int *p = 0;  === int *p = NULL;
+	define NULL (void *) 0 
+C++: nullptr: nullptr_t türü; false, true gibi ayrı bir tür artık
+	Artık NULL veya 0 kullanma.
+
+13) *invalid pointer
+    *dangling pointer
+    *valid pointer
