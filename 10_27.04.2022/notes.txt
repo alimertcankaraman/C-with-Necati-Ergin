@@ -1,0 +1,47 @@
+*******************************
+Yeni C++ ile gelenler
+	1. Brace initialization
+	2. default member initializer (constructor'da)
+	3. delegating constructor (bir constructor içeride diğerini çağırarak initialization yapabilir)
+		Recursive bi yapı oluşmamasından sen sorumlusun
+	
+*******************************
+Special Member Functions (6 tane): Belirli koşullarda derleyici bunları bizim için yazar! (Kodu default eder!)
+default ctor
+destructor
+copy ctor
+move ctor		(C++11)
+copy assignment
+move assignment (C++11)
+
+*******************************
+Herhangi bir fonksyion delete edilebilir ama default etme "Special Member Functions" için geçerli sadece.
+Çünkü derleyici sadece bu fonksiyonları yazabilir.
+
+*******************************
+Derleyicinin bizim için yazacağı default ctor, sınıfın veri elemanlarını default initialize eder.
+
+*******************************
+Copy Constructor
+Hayatını bir başka nesnenin özelliğini alarak geliyor. (Aynı tür bir sınıf nesnesiden alabilir)
+
+class MyClass
+{
+
+}
+
+void func (MyClass);	//Call by value burda copy const çağrılıcak ilk değişken için
+
+MyClass foo();
+
+main()
+{
+	MyClass m1;
+	MyClass m2(m1);
+	MyClass m3{m1};
+	MyClass m4 = m1;
+	
+	func(m1);	//copy constructor çağrılır
+	
+	MyClass m5 = foo();
+}
